@@ -9,10 +9,11 @@ export default interface CrackerInstance {
     progress: Record<string, any>
 
     stringOutput(): string
+    call(): string
+    emptyCall(): void
     force(key: string, values: any[], error: string): void
     messageWithOutput(message: string): string
     error(message?: string): string
     loop(solver: () => string | void): string
     DATA_CHECK(HASH: (q: string) => number, DATA: Record<number, string>): void
-    call(): string
 }

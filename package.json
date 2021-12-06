@@ -3,8 +3,8 @@
     "license": "MIT",
     "scripts": {
         "postinstall": "patch-package",
-        "push": "hsm push src --scripts=crackerlib,crackT1,crackT2",
-        "watch": "hsm watch src --scripts=crackerlib,crackT1,crackT2 --gen-types=../player.d.ts",
+        "push": "hsm push src --scripts=crackerlib,crackT1,crackT2,borrow",
+        "watch": "hsm watch src --scripts=crackerlib,crackT1,crackT2,borrow --gen-types=../player.d.ts",
         "sync-macros": "hsm sync-macros",
         "test": "hsm test src",
         "gen-types": "hsm gen-types src"

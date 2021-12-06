@@ -1,7 +1,7 @@
 import { crackerlib } from "./crackerlib"
 import Scriptor from "../types/Scriptor"
 
-export function script(context: CLIContext, args: any) {
+export function crackT1(context: CLIContext, args: any) {
     const { validateArgs, Cracker, T1 }: ReturnType<typeof crackerlib> =
         $ns.catte_.crackerlib()
 

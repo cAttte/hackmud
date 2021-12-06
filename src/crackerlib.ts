@@ -3,9 +3,6 @@ import Scriptor from "../types/Scriptor"
 
 export function crackerlib(context: CLIContext, args: any) {
     const split = (list: string, sep = "_") => list.split(sep)
-    // prettier-ignore
-    const CONSPEC_FORWARDS = split("ABCDEFGHIJKLMNOPQRSTUVWXYZ_ACEGIKMOQSUWY_BDFHJLNPRTVXZ_ABEFIJMNQRUVYZ_BCFGJKNORSVWZ_CDGHKLOPSTWX_ADEHILMPQTUXY")
-    const CONSPEC_BACKWARDS = CONSPEC_FORWARDS.map(_ => _.split("").reverse().join(""))
 
     return {
         validateArgs(args: any, extra?: Record<string, string>) {
@@ -49,6 +46,12 @@ export function crackerlib(context: CLIContext, args: any) {
                 self.calls++
                 self.output = self.target.call(self.progress)
                 return self.output
+            }).bind(cracker, cracker)
+
+            cracker.emptyCall = ((self: CrackerInstance) => {
+                if (!self.lock) return
+                self.progress[self.lock] = ""
+                self.call()
             }).bind(cracker, cracker)
 
             cracker.force = ((
@@ -151,7 +154,14 @@ export function crackerlib(context: CLIContext, args: any) {
         },
 
         T2: {
-            CS_ALPHA: CONSPEC_FORWARDS.concat(CONSPEC_BACKWARDS),
+            CS_ALPHABET: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            CS_ALPHABET_REV: "ZYXWVUTSRQPONMLKJIHGFEDCBA",
+            // prettier-ignore
+            CS_SETS: [ // [pattern, offsets]
+                [[1], [0]],
+                [[1, 0], [0, 1]],
+                [[1, 1, 0, 0], [0, 1, 2, 3]]
+            ],
             HASH: (q: string) => q.length + (q.match(/ /g) || []).length - 12,
             DATA: JSON.parse(`{
                 "26": "executives",
@@ -185,7 +195,7 @@ export function crackerlib(context: CLIContext, args: any) {
                 "That balance would not be chosen by a magician.": 1089,
                 "Not a monolithic balance.": 2001,
                 "Not a hunter's balance indeed.": 3006
-            }`) as Record<string, number>,
+            }`) as Record<string, number>
         }
     }
 }
